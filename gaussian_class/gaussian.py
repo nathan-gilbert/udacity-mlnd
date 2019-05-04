@@ -2,7 +2,7 @@ import math
 import matplotlib.pyplot as plt
 
 
-class Gaussian():
+class Gaussian(Distribution):
     """ Gaussian distribution class for calculating and
     visualizing a Gaussian distribution.
 
@@ -14,11 +14,12 @@ class Gaussian():
     """
     def __init__(self, mu=0, sigma=1):
 
-        self.mean = mu
-        self.stdev = sigma
-        self.data = []
+        Distribution.__init__(self, mu, sigma)
+
+
 
     def calculate_mean(self):
+
         """Function to calculate the mean of the data set.
 
         Args:
@@ -32,7 +33,10 @@ class Gaussian():
         avg = 1.0 * sum(self.data) / len(self.data)
 
         self.mean = avg
+
         return self.mean
+
+
 
     def calculate_stdev(self, sample=True):
 
@@ -51,7 +55,7 @@ class Gaussian():
         else:
             n = len(self.data)
 
-        mean = self.mean
+        mean = self.calculate_mean()
 
         sigma = 0
 
@@ -64,32 +68,6 @@ class Gaussian():
 
         return self.stdev
 
-
-    def read_data_file(self, file_name, sample=True):
-
-        """Function to read in data from a txt file. The txt file should have
-        one number (float) per line. The numbers are stored in the data attribute.
-        After reading in the file, the mean and standard deviation are calculated
-
-        Args:
-            file_name (string): name of a file to read from
-
-        Returns:
-            None
-
-        """
-
-        with open(file_name) as file:
-            data_list = []
-            line = file.readline()
-            while line:
-                data_list.append(int(line))
-                line = file.readline()
-        file.close()
-
-        self.data = data_list
-        self.mean = self.calculate_mean()
-        self.stdev = self.calculate_stdev(sample)
 
 
     def plot_histogram(self):
@@ -107,6 +85,8 @@ class Gaussian():
         plt.xlabel('data')
         plt.ylabel('count')
 
+
+
     def pdf(self, x):
         """Probability density function calculator for the gaussian distribution.
 
@@ -118,10 +98,10 @@ class Gaussian():
             float: probability density function output
         """
 
-        return (1.0 / (self.stdev * math.sqrt(2 * math.pi))) * \
-            math.exp(-0.5*((x - self.mean) / self.stdev) ** 2)
+        return (1.0 / (self.stdev * math.sqrt(2*math.pi))) * math.exp(-0.5*((x - self.mean) / self.stdev) ** 2)
 
-    def plot_histogram_pdf(self, n_spaces=50):
+
+    def plot_histogram_pdf(self, n_spaces = 50):
 
         """Function to plot the normalized histogram of the data and a plot of the
         probability density function along the same range
@@ -141,7 +121,7 @@ class Gaussian():
         min_range = min(self.data)
         max_range = max(self.data)
 
-        # calculates the interval between x values
+         # calculates the interval between x values
         interval = 1.0 * (max_range - min_range) / n_spaces
 
         x = []
@@ -169,7 +149,7 @@ class Gaussian():
 
     def __add__(self, other):
 
-        """Magic method to add together two Gaussian distributions
+        """Function to add together two Gaussian distributions
 
         Args:
             other (Gaussian): Gaussian instance
@@ -179,23 +159,16 @@ class Gaussian():
 
         """
 
-        # Calculate the results of summing two Gaussian distributions
-        #   When summing two Gaussian distributions, the mean value is the sum
-        #       of the means of each Gaussian.
-        #
-        #   When summing two Gaussian distributions, the standard deviation is the
-        #       square root of the sum of square ie sqrt(stdev_one ^ 2 + stdev_two ^ 2)
-
-        # create a new Gaussian object
         result = Gaussian()
-
-        # calculate the mean and standard deviation of the sum of two Gaussians
         result.mean = self.mean + other.mean
-        result.stdev = math.sqrt(self.stdev**2 + other.stdev**2)
+        result.stdev = math.sqrt(self.stdev ** 2 + other.stdev ** 2)
+
         return result
 
+
     def __repr__(self):
-        """Magic method to output the characteristics of the Gaussian instance
+
+        """Function to output the characteristics of the Gaussian instance
 
         Args:
             None
@@ -204,11 +177,6 @@ class Gaussian():
             string: characteristics of the Gaussian
 
         """
-        # Return a string in the following format -
-        # "mean mean_value, standard deviation standard_deviation_value"
-        # where mean_value is the mean of the Gaussian distribution
-        # and standard_deviation_value is the standard deviation of
-        # the Gaussian.
-        # For example "mean 3.5, standard deviation 1.3"
-        return "mean " + str(self.mean) + ", standard deviation " + str(self.stdev)
+
+        return "mean {}, standard deviation {}".format(self.mean, self.stdev)
 
