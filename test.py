@@ -1,4 +1,4 @@
-# Any changes to the distributions library should be reinstalled with
+# Any changes to the ng_udacity_distributions library should be reinstalled with
 #  pip install --upgrade .
 
 # For running unit tests, use
@@ -6,8 +6,8 @@
 
 import unittest
 
-from distributions import Binomial
-from distributions import Gaussian
+from ng_udacity_distributions import Binomial
+from ng_udacity_distributions import Gaussian
 
 
 class TestGaussianClass(unittest.TestCase):

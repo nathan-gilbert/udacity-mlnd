@@ -133,7 +133,7 @@ class Binomial(Distribution):
         return x, y
 
     def __add__(self, other):
-        """Function to add together two Binomial distributions with equal p
+        """Function to add together two Binomial ng_udacity_distributions with equal p
 
         Args:
             other (Binomial): Binomial instance
