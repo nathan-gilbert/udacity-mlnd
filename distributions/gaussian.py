@@ -1,5 +1,8 @@
 import math
+
 import matplotlib.pyplot as plt
+
+from .distribution import Distribution
 
 
 class Gaussian(Distribution):
@@ -15,8 +18,6 @@ class Gaussian(Distribution):
     def __init__(self, mu=0, sigma=1):
 
         Distribution.__init__(self, mu, sigma)
-
-
 
     def calculate_mean(self):
 
@@ -35,8 +36,6 @@ class Gaussian(Distribution):
         self.mean = avg
 
         return self.mean
-
-
 
     def calculate_stdev(self, sample=True):
 
